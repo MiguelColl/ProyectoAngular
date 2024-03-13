@@ -1,0 +1,25 @@
+<div class="card h-100 shadow">
+  <img
+    class="card-img-top"
+    [src]="product.mainPhoto"
+    alt=""
+    [routerLink]="['/products', product.id]"
+  />
+  <div class="card-body">
+    <button class="btn btn-danger btn-sm float-end" (click)="deleteProduct()">
+      X
+    </button>
+    <h5 class="card-title" [routerLink]="['/products', product.id]">
+      {{ product.title }}
+    </h5>
+    <p class="card-text" [innerText]="product.description"></p>
+  </div>
+  <div class="card-footer bg-transparent text-muted">
+    <div class="row">
+      <div class="col">{{ product.category.name }}</div>
+      <div class="col text-end">
+        {{ product.price | currency : "EUR" : "symbol" }}
+      </div>
+    </div>
+  </div>
+</div>

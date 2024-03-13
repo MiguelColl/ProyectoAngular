@@ -1,0 +1,7 @@
+.card > .card-footer {
+    font-size: smaller;
+}
+
+.card-text {
+    white-space: pre-wrap;
+}
