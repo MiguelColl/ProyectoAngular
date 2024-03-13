@@ -2,4 +2,3 @@ CAMBIAR LA GEOLOCALIZACION A UN SERVICIO
 register:
 	puedo tener el validarclases() como forncontrol | formgroup?
 	si clico en email y salgo se pone invalid tambien el confirmar email (al comprobar el validador del grupo entero)
-	FUNSIONA
