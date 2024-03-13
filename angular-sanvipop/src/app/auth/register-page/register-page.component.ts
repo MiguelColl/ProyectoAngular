@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MyGeolocation } from '../interfaces/my-geolocation';
 import { matchEmail } from '../../validators/match-email';
+import { GeolocateService } from '../../services/geolocate.service';
 
 @Component({
   selector: 'register-page',
@@ -12,8 +12,13 @@ import { matchEmail } from '../../validators/match-email';
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css'
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent {
   #router = inject(Router);
+  #geolocation = inject(GeolocateService);
+
+  constructor() {
+    this.#geolocation.getGeolocation(this.registerForm.controls.lat, this.registerForm.controls.lng);
+  }
 
   #fb = inject(NonNullableFormBuilder);
   registerForm = this.#fb.group({
@@ -29,30 +34,6 @@ export class RegisterPageComponent implements OnInit {
   });
 
   imageBase64 = '';
-
-  ngOnInit(): void {
-    this.geolocate();
-  }
-
-  async geolocate(): Promise<void> {
-    try {
-        const geolocation = await MyGeolocation.getLocation();
-        this.registerForm.controls.lat.setValue(geolocation.latitude + '');
-        this.registerForm.controls.lng.setValue(geolocation.longitude + '');
-    } catch (e) {
-        this.registerForm.controls.lat.setValue('0');
-        this.registerForm.controls.lng.setValue('0');
-        /*Swal.fire({
-            icon: "error",
-            title: "Geolocation denied",
-            text: "Default values will be used",
-        });*/
-        console.log("Geolocalizacion denegada");
-    }
-
-    this.registerForm.controls.lat.markAsTouched();
-    this.registerForm.controls.lng.markAsTouched();
-}
 
   changeImage(event: Event) {
     const fileInput = event.target as HTMLInputElement;
