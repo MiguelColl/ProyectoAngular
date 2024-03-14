@@ -1,24 +1,62 @@
-<div class="card h-100 shadow">
-  <img
-    class="card-img-top"
-    [src]="product.mainPhoto"
-    alt=""
-    [routerLink]="['/products', product.id]"
-  />
-  <div class="card-body">
-    <button class="btn btn-danger btn-sm float-end" (click)="deleteProduct()">
-      X
-    </button>
-    <h5 class="card-title" [routerLink]="['/products', product.id]">
-      {{ product.title }}
-    </h5>
-    <p class="card-text" [innerText]="product.description"></p>
-  </div>
-  <div class="card-footer bg-transparent text-muted">
-    <div class="row">
-      <div class="col">{{ product.category.name }}</div>
-      <div class="col text-end">
-        {{ product.price | currency : "EUR" : "symbol" }}
+<div class="col">
+  <div class="card h-100 shadow">
+    <img
+      class="card-img-top"
+      [src]="product.mainPhoto"
+      alt="Foto producto"
+      [routerLink]="['/products', product.id]"
+    />
+    <div class="card-body">
+      <h5 class="card-title" [routerLink]="['/products', product.id]">
+        {{ product.title }}
+      </h5>
+      <p class="card-text" [innerText]="product.description"></p>
+      <div class="row text-muted">
+        <div class="col">{{ product.category.name }}</div>
+        <div class="col-auto">
+          {{ product.price | currency : "EUR" : "symbol" }}
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-transparent text-muted">
+      <div class="row">
+        <div class="col-auto avatar ps-1 pe-1">
+          <img
+            class="rounded-circle"
+            [src]="product.owner.photo"
+            alt="Foto propietario"
+            [routerLink]="['/profile', product.owner.id]"
+          />
+        </div>
+        <div class="col">
+          <div class="name">{{ product.owner.name }}</div>
+          <div>
+            <small class="text-muted">{{
+              product.datePublished | date : "dd/mm/yyyy, HH:MM"
+            }}</small>
+          </div>
+        </div>
+        @if(product.mine) {
+          <div class="col-auto">
+            <button
+              class="btn btn-outline-danger btn-sm delete"
+              (click)="deleteProduct()"
+            >
+              <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+            </button>
+          </div>
+        }
+        <div class="col-auto text-muted text-right">
+          <div>
+            <small
+              >{{ product.numVisits }}
+              <fa-icon [icon]="['far', 'eye']"></fa-icon
+            ></small>
+          </div>
+          <div>
+            <small>{{ product.distance.toFixed(2) }}km</small>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -15,11 +15,6 @@ export interface ProductInsert {
 export interface Product extends Omit<ProductInsert, "category"> {
     id: number;
     category: Category;
-}
-
-export interface Product2 extends Omit<ProductInsert, "category"> { // Cambiar a Product (hay que modificar cosas de la card etc)
-    id: number;
-    category: Category;
     datePublished: string;
     status: Status;
     numVisits: number;
@@ -29,4 +24,5 @@ export interface Product2 extends Omit<ProductInsert, "category"> { // Cambiar a
     photos?: Photo[];
     distance: number; 
     mine: boolean;
+    bookmarked: boolean;
 }

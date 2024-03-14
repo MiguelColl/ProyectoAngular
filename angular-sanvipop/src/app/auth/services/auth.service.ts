@@ -21,6 +21,7 @@ export class AuthService {
       map((res) => {
         localStorage.setItem('token', res.accessToken);
         this.#logged.set(true);
+        console.log("logueado"); // MOSTRAR VENTANA MODAL
       })
     );
   }
@@ -50,12 +51,10 @@ export class AuthService {
     }
   }
 
-  register(data: UserRegister): Observable<boolean> {
+  register(data: UserRegister): Observable<void> {
     return this.#http.post<void>(`${this.#userUrl}/register`, data).pipe(
       map(() => {
-        return true;
-      }), catchError(() => {
-        return of(false);
+        console.log("cuenta creada"); // MOSTRAR VENTANA MODAL
       })
     );
   }

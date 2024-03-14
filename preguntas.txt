@@ -1,17 +1,5 @@
-CAMBIAR LA GEOLOCALIZACION A UN SERVICIO
-register:
-	puedo tener el validarclases() como forncontrol | formgroup?
-	si clico en email y salgo se pone invalid tambien el confirmar email (al comprobar el validador del grupo entero)
-
-geolocate.service:
-	esta bien que sea una funcion async y devuelva una promise? lo uso bien en el constructor?
-
 auth.service: 
-	cuando se usa isLogged() realmente?
-	porque se usa of(false) en el catch pero para el true del map no se pone el of()?
-	podria ignorar la respuesta del registro? he creado una interfaz para ello
-	esta bien emplear #userUrl?
-	el register deberia ser void?
+	cuando se usa isLogged() realmente? EN LOS GUARDS
 
 Modales de boostrap:
-	como añado un icono como el sweetalert de error o correcto?
+	como añado un icono como el sweetalert de error o correcto? USAR FONTAWESOME

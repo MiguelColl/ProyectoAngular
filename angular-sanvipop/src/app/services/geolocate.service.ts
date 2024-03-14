@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
-import { MyGeolocation } from '../interfaces/my-geolocation';
-import { FormControl } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GeolocateService {
-  async getGeolocation(latitude: FormControl, longitude: FormControl): Promise<void> {
-    try {
-        const geolocation = await MyGeolocation.getLocation();
-        latitude.setValue(geolocation.latitude + '');
-        longitude.setValue(geolocation.longitude + '');
-    } catch (e) {
-        latitude.setValue('0');
-        longitude.setValue('0');
-        /*Swal.fire({
-            icon: "error",
-            title: "Geolocation denied",
-            text: "Default values will be used",
-        });*/
-        console.log("Geolocalizacion denegada");
-    }
-
-    latitude.markAsTouched();
-    longitude.markAsTouched();
+  getLocation(): Promise<GeolocationCoordinates> {
+    return new Promise<GeolocationCoordinates>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          resolve(pos.coords);
+        },
+        (error) => {
+          switch (error.code) {
+            case error.PERMISSION_DENIED: // User didn't allow the web page to retrieve location
+              reject('User denied the request for Geolocation.');
+              break;
+            case error.POSITION_UNAVAILABLE: // Couldn't get the location
+              reject('Location information is unavailable.');
+              break;
+            case error.TIMEOUT: // The maximum amount of time to get location information has passed
+              reject('The request to get user location timed out.');
+              break;
+            default:
+              reject('An unknown error occurred.');
+              break;
+          }
+        }
+      );
+    });
   }
 }

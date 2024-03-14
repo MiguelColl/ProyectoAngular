@@ -6,6 +6,7 @@ export interface UserLogin {
 }
 
 export interface UserRegister extends User {
+    name: string;
     photo: string;
 }
 
