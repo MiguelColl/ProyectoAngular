@@ -12,7 +12,3 @@ export interface UserResponse {
 export interface UsersResponse {
     users: User[];
 }
-
-export interface RegisterResponse {
-    email: string;
-}

@@ -11,3 +11,7 @@ auth.service:
 	porque se usa of(false) en el catch pero para el true del map no se pone el of()?
 	podria ignorar la respuesta del registro? he creado una interfaz para ello
 	esta bien emplear #userUrl?
+	el register deberia ser void?
+
+Modales de boostrap:
+	como añado un icono como el sweetalert de error o correcto?
