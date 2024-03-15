@@ -12,6 +12,8 @@ export interface ProductInsert {
     mainPhoto: string;
 }
 
+export interface ProductUpdate extends Omit<ProductInsert, "mainPhoto"> {}
+
 export interface Product extends Omit<ProductInsert, "category"> {
     id: number;
     category: Category;

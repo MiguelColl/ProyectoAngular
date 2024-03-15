@@ -1,4 +1,4 @@
-<form class="mt-4" [formGroup]="productForm" (ngSubmit)="addPost()">
+<form class="mt-4" [formGroup]="productForm" (ngSubmit)="product ? updatePost() : addPost()">
   <div class="mb-3">
     <label for="title">Título</label>
     <input
@@ -7,17 +7,18 @@
       id="title"
       placeholder="Nombre del producto"
       formControlName="title"
-      [ngClass]="validClasses(productForm.controls.title, 'is-valid', 'is-invalid')"
+      [ngClass]="
+        validClasses(productForm.controls.title, 'is-valid', 'is-invalid')
+      "
     />
     @if (productForm.controls.title.errors?.['required']) {
-      <div class="invalid-feedback">El titulo no puede estar vacío</div>
-    }
-    @if(productForm.controls.title.errors?.['minlength']) {
-      <div class="invalid-feedback">
-        Debes introducir
-        {{productForm.controls.title.errors?.['minlength'].requiredLength - productForm.controls.title.errors?.['minlength'].actualLength}}
-        carácteres más
-      </div>
+    <div class="invalid-feedback">El titulo no puede estar vacío</div>
+    } @if(productForm.controls.title.errors?.['minlength']) {
+    <div class="invalid-feedback">
+      Debes introducir
+      {{productForm.controls.title.errors?.['minlength'].requiredLength - productForm.controls.title.errors?.['minlength'].actualLength}}
+      carácteres más
+    </div>
     }
   </div>
   <div class="mb-3">
@@ -28,10 +29,12 @@
       rows="3"
       placeholder="Descripción..."
       formControlName="description"
-      [ngClass]="validClasses(productForm.controls.description, 'is-valid', 'is-invalid')"
+      [ngClass]="
+        validClasses(productForm.controls.description, 'is-valid', 'is-invalid')
+      "
     ></textarea>
     @if (productForm.controls.description.errors?.['required']) {
-      <div class="invalid-feedback">La descripción no puede estar vacía</div>
+    <div class="invalid-feedback">La descripción no puede estar vacía</div>
     }
   </div>
   <div class="mb-3">
@@ -43,13 +46,14 @@
       id="price"
       placeholder="Precio"
       formControlName="price"
-      [ngClass]="validClasses(productForm.controls.price, 'is-valid', 'is-invalid')"
+      [ngClass]="
+        validClasses(productForm.controls.price, 'is-valid', 'is-invalid')
+      "
     />
     @if (productForm.controls.price.errors?.['required']) {
-      <div class="invalid-feedback">El precio no puede estar vacío</div>
-    }
-    @if (productForm.controls.price.errors?.['positiveValue']) {
-      <div class="invalid-feedback">El precio debe ser mayor de 0</div>
+    <div class="invalid-feedback">El precio no puede estar vacío</div>
+    } @else if (productForm.controls.price.errors?.['positiveValue']) {
+    <div class="invalid-feedback">El precio debe ser mayor de 0</div>
     }
   </div>
   <div class="mb-3">
@@ -58,15 +62,17 @@
       id="category"
       class="form-select"
       formControlName="category"
-      [ngClass]="validClasses(productForm.controls.category, 'is-valid', 'is-invalid')"
+      [ngClass]="
+        validClasses(productForm.controls.category, 'is-valid', 'is-invalid')
+      "
     >
       <option value="0" selected>-- Seleccione una opción --</option>
       @for (category of categories; track category) {
-        <option value="{{ category.id }}">{{ category.name }}</option>
+      <option value="{{ category.id }}">{{ category.name }}</option>
       }
     </select>
     @if (productForm.controls.category.errors?.['positiveValue']) {
-      <div class="invalid-feedback">Debes seleccionar una categoría</div>
+    <div class="invalid-feedback">Debes seleccionar una categoría</div>
     }
   </div>
   <div class="mb-3">
@@ -78,10 +84,14 @@
       (change)="changeImage($event)"
       id="image"
       formControlName="mainPhoto"
-      [ngClass]="validClasses(productForm.controls.mainPhoto, 'is-valid', 'is-invalid')"
+      [ngClass]="
+        validClasses(productForm.controls.mainPhoto, 'is-valid', 'is-invalid')
+      "
     />
     @if (productForm.controls.mainPhoto.errors?.['required']) {
-      <div class="invalid-feedback">Debes seleccionar una foto para el producto</div>
+    <div class="invalid-feedback">
+      Debes seleccionar una foto para el producto
+    </div>
     }
   </div>
   <img
@@ -91,7 +101,13 @@
     [ngClass]="{ 'd-none': imageBase64.length === 0 }"
   />
 
-  <div>
-    <button type="submit" class="btn btn-primary btn-lg" [disabled]="productForm.invalid">Crear</button>
+  <div class="mb-4">
+    <button
+      type="submit"
+      class="btn btn-primary btn-lg"
+      [disabled]="productForm.invalid"
+    >
+      {{ nameButton }}
+    </button>
   </div>
 </form>

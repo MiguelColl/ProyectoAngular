@@ -33,4 +33,17 @@ export const productsRoutes: Routes = [
         (m) => m.ProductDetailComponent
       ),
   },
+  {
+    path: ':id/edit',
+    title: 'Editando producto | Sanvipop',
+    canActivate: [numericIdGuard],
+    canDeactivate: [leavePageGuard],
+    resolve: {
+      product: productResolver,
+    },
+    loadComponent: () =>
+      import('./product-form/product-form.component').then(
+        (m) => m.ProductFormComponent
+      ),
+  },
 ];

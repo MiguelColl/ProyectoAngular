@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Product, ProductInsert } from '../interfaces/product';
+import { Product, ProductInsert, ProductUpdate } from '../interfaces/product';
 import { Observable, map } from 'rxjs';
 import {
   ProductsResponse,
   SingleProductResponse,
 } from '../interfaces/responses';
+import { PhotoInsert } from '../interfaces/photo';
 
 @Injectable({
   providedIn: 'root',
@@ -50,9 +51,23 @@ export class PostsService {
   }
 
   buyProduct(productId: number): Observable<void> {
-    return this.#http.put<void>(
-      `${this.#productsUrl}/${productId}/buy`,
-      {}
+    return this.#http.put<void>(`${this.#productsUrl}/${productId}/buy`, {});
+  }
+
+  updateMainPhoto(productId: number, photo: PhotoInsert): Observable<void> {
+    return this.#http.post<void>(
+      `${this.#productsUrl}/${productId}/photos`,
+      photo
     );
+  }
+
+  deletePhoto(productId: number, photoId: number): Observable<void> {
+    return this.#http.delete<void>(
+      `${this.#productsUrl}/${productId}/photos/${photoId}`
+    );
+  }
+
+  updateProduct(productId: number, product: ProductUpdate): Observable<void> {
+    return this.#http.put<void>(`${this.#productsUrl}/${productId}`, product);
   }
 }
