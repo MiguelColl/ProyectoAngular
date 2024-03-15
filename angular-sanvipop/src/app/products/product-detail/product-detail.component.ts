@@ -36,7 +36,7 @@ export class ProductDetailComponent {
         modalRef.componentInstance.title = 'Producto comprado';
         modalRef.componentInstance.body = '¡Gracias por comprar este producto!';
         await modalRef.result.catch(() => false);
-        // Recargar de alguna forma
+        this.product.status = 3; // falta que se vea la foto del owner
       },
       error: () => console.error('Error comprando producto'),
     });

@@ -122,9 +122,9 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
 
       this.#postsService.updateMainPhoto(this.product!.id, photo).subscribe({
         next: () =>
-          this.#postsService.deletePhoto(this.product!.id, photoId).subscribe({
-            next: () => this.updateInfo(),
-          }),
+          this.#postsService
+            .deletePhoto(this.product!.id, photoId)
+            .subscribe(() => this.updateInfo()),
         error: () => {
           const modalRef = this.#modalService.open(InfoModalComponent);
           modalRef.componentInstance.type = 'error';
