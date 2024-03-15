@@ -5,11 +5,12 @@ import { PostsService } from '../services/posts.service';
 import { EMPTY, catchError } from 'rxjs';
 
 export const productResolver: ResolveFn<Product> = (route) => {
+  const router = inject(Router);
   return inject(PostsService)
     .getProduct(+route.paramMap.get('id')!)
     .pipe(
       catchError(() => {
-        inject(Router).navigate(['/products']);
+        router.navigate(['/products']);
         return EMPTY;
       })
     );
