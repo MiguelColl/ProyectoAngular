@@ -11,7 +11,7 @@ import { InfoModalComponent } from '../../modals/info-modal/info-modal.component
   standalone: true,
   imports: [ProductCardComponent, RouterLink],
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.css'
+  styleUrl: './product-detail.component.css',
 })
 export class ProductDetailComponent {
   @Input() product!: Product;
@@ -35,8 +35,10 @@ export class ProductDetailComponent {
         modalRef.componentInstance.type = 'success';
         modalRef.componentInstance.title = 'Producto comprado';
         modalRef.componentInstance.body = '¡Gracias por comprar este producto!';
-        await modalRef.result.catch(() => false);
-        this.product.status = 3; // falta que se vea la foto del owner
+        modalRef.result.catch(() => false);
+        this.#postsService
+          .getProduct(this.product.id)
+          .subscribe((p) => (this.product = p));
       },
       error: () => console.error('Error comprando producto'),
     });
