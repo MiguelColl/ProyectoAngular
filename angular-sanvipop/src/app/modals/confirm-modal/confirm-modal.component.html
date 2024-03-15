@@ -17,10 +17,18 @@
 <div class="modal-footer">
   <button
     type="button"
-    class="btn btn-primary mx-auto"
+    class="btn btn-success mx-auto"
     aria-label="Aceptar"
-    (click)="activeModal.close()"
+    (click)="activeModal.close(true)"
   >
     Aceptar
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger mx-auto"
+    aria-label="Cancelar"
+    (click)="activeModal.close(false)"
+  >
+    Cancelar
   </button>
 </div>

@@ -14,7 +14,7 @@ export const productsRoutes: Routes = [
   },
   {
     path: 'add',
-    title: 'New product | Sanvipop',
+    title: 'Subir producto | Sanvipop',
     canDeactivate: [leavePageGuard],
     loadComponent: () =>
       import('./product-form/product-form.component').then(
@@ -23,7 +23,7 @@ export const productsRoutes: Routes = [
   },
   {
     path: ':id',
-    title: 'Product detail | Sanvipop',
+    title: 'Detalle de producto | Sanvipop',
     canActivate: [numericIdGuard],
     resolve: {
       product: productResolver,

@@ -1,7 +1,8 @@
 import { Component, Input, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import { Icons } from '../interfaces/icon';
 
 @Component({
@@ -12,9 +13,9 @@ import { Icons } from '../interfaces/icon';
   styleUrl: './info-modal.component.css'
 })
 export class InfoModalComponent {
+  @Input() type!: string;
   @Input() title!: string;
   @Input() body!: string;
-  @Input() type!: string;
 
   icons: Icons = {
     error: {
@@ -23,7 +24,7 @@ export class InfoModalComponent {
     },
     success: {
       color: 'text-success',
-      icon: ['fas', 'circle-xmark'],
+      icon: ['far', 'circle-check'],
     },
   };
   
@@ -31,6 +32,6 @@ export class InfoModalComponent {
   activeModal = inject(NgbActiveModal);
 
   constructor() {
-    this.#faIconLibrary.addIcons(faCircleXmark);
+    this.#faIconLibrary.addIcons(faCircleXmark, faCircleCheck);
   }
 }

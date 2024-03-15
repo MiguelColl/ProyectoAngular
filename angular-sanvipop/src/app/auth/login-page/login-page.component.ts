@@ -45,9 +45,9 @@ export class LoginPageComponent {
         this.loginForm.controls.lng.setValue(geolocation.longitude + '');
     } catch (e) {
       const modalRef = this.#modalService.open(InfoModalComponent);
+      modalRef.componentInstance.type = 'error';
       modalRef.componentInstance.title = 'Geolocalización denegada';
       modalRef.componentInstance.body = 'Se van a usar valores por defecto';
-      modalRef.componentInstance.type = 'error';
     }
   }
 
@@ -62,11 +62,11 @@ export class LoginPageComponent {
       next: () => {
         this.#router.navigate(['/products']);
       },
-      error: () => {
+      error: async () => {
         const modalRef = this.#modalService.open(InfoModalComponent);
+        modalRef.componentInstance.type = 'error';
         modalRef.componentInstance.title = 'Login incorrecto';
         modalRef.componentInstance.body = 'El email o la contraseña son incorrectos';
-        modalRef.componentInstance.type = 'error';
       }
     });
   }

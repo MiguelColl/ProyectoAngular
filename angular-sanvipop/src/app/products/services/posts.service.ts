@@ -35,4 +35,24 @@ export class PostsService {
   deleteProduct(id: number): Observable<void> {
     return this.#http.delete<void>(`${this.#productsUrl}/${id}`);
   }
+
+  addFavorite(productId: number): Observable<void> {
+    return this.#http.post<void>(
+      `${this.#productsUrl}/${productId}/bookmarks`,
+      {}
+    );
+  }
+
+  deleteFavorite(productId: number): Observable<void> {
+    return this.#http.delete<void>(
+      `${this.#productsUrl}/${productId}/bookmarks`
+    );
+  }
+
+  buyProduct(productId: number): Observable<void> {
+    return this.#http.put<void>(
+      `${this.#productsUrl}/${productId}/buy`,
+      {}
+    );
+  }
 }

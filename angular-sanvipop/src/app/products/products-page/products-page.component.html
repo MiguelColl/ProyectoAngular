@@ -1,31 +1,31 @@
-@if (products.length > 0) {
-  <div class="card-block">
+@if (products().length) {
+  <nav class="card-block">
     <form class="form p-3">
       <div class="row">
         <label class="col-form-label col-sm-2 text-sm-end" for="filterDesc">
-          Filter:
+          Buscar:
         </label>
-        <div class="col-sm-5">
+        <div class="col-sm-8">
           <input
             type="text"
             [(ngModel)]="search"
             class="form-control"
             name="filterDesc"
             id="filterDesc"
-            placeholder="Filter..."
+            placeholder="Filtro..."
           />
         </div>
-        @if (search.length > 0) {
-          <span class="col-form-label col-sm-5"> Filtered by: {{ search }} </span>
+        @if (search().length) {
+          <span class="col-form-label col-sm-2"> Buscando por: {{ search() }} </span>
         }
       </div>
     </form>
-  </div>
+  </nav>
 
   <div
     id="productsContainer"
     class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-    @for (product of products | productFilter:search; track product.id) {
+    @for (product of filteredProducts(); track product.id) {
       <product-card
         class="col"
         [product]="product"

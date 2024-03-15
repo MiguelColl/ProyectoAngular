@@ -9,7 +9,7 @@ import { TokenResponse } from '../interfaces/responses';
 })
 export class AuthService {
   #http = inject(HttpClient);
-  #userUrl = 'auth'
+  #userUrl = 'auth';
   #logged = signal(false);
 
   get logged() {
@@ -21,7 +21,6 @@ export class AuthService {
       map((res) => {
         localStorage.setItem('token', res.accessToken);
         this.#logged.set(true);
-        console.log("logueado"); // MOSTRAR VENTANA MODAL
       })
     );
   }
@@ -52,10 +51,6 @@ export class AuthService {
   }
 
   register(data: UserRegister): Observable<void> {
-    return this.#http.post<void>(`${this.#userUrl}/register`, data).pipe(
-      map(() => {
-        console.log("cuenta creada"); // MOSTRAR VENTANA MODAL
-      })
-    );
+    return this.#http.post<void>(`${this.#userUrl}/register`, data);
   }
 }

@@ -1,5 +1,10 @@
 auth.service: 
 	cuando se usa isLogged() realmente? EN LOS GUARDS
 
-Modales de boostrap:
-	como añado un icono como el sweetalert de error o correcto? USAR FONTAWESOME
+Product-card:
+	pongo un routerlink a la imagen y name del owner, esta bien?
+	no tiene sentido que el favorito salga solo en tus productos, al reves, deberia salir solo si no es tuyo?? tampoco deberia aparecer si el producto esta vendido??
+	no funciona añadir a favoritos, el servicio devuelve que no existe el producto, 404
+
+Product detail:
+	no me recarga al comprar un product, como recargo el detail, con ngzone? con router.navigate?

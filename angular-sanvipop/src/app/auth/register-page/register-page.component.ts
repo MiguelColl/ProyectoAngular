@@ -61,9 +61,9 @@ export class RegisterPageComponent {
       this.registerForm.controls.lng.setValue('0');
 
       const modalRef = this.#modalService.open(InfoModalComponent);
+      modalRef.componentInstance.type = 'error';
       modalRef.componentInstance.title = 'Geolocalización denegada';
       modalRef.componentInstance.body = 'Se van a usar valores por defecto';
-      modalRef.componentInstance.type = 'error';
     }
 
     this.registerForm.controls.lat.markAsTouched();
@@ -94,7 +94,12 @@ export class RegisterPageComponent {
     };
 
     this.#authService.register(register).subscribe({
-      next: () => {
+      next: async () => {
+        const modalRef = this.#modalService.open(InfoModalComponent);
+        modalRef.componentInstance.type = 'success';
+        modalRef.componentInstance.title = 'Cuenta creada';
+        modalRef.componentInstance.body = 'Te has registrado correctamente'
+        await modalRef.result.catch(() => false);
         this.#router.navigate(['/auth/login']);
       },
       error: (e) => {

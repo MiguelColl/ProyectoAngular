@@ -1,3 +1,23 @@
+<div class="mt-4 mb-4">
+  @if(product.status < 3) {
+    <button class="btn btn-primary" (click)="buyProduct()">Comprar</button>
+  } @else {
+    <div class="alert alert-info">
+      <h5 class="d-inline-block me-2">
+        Producto comprado por:
+        <a [routerLink]="['/profile', product.soldTo?.id]" class="name">{{
+          product.soldTo?.name
+        }}</a>
+      </h5>
+      <a [routerLink]="['/profile', product.soldTo?.id]"
+        ><img
+          class="rounded-circle avatar d-inline-block"
+          [src]="ownerPhotoUrl + product.soldTo?.photo"
+          alt="Foto propietario"
+      /></a>
+    </div>
+  }
+</div>
 <div class="mt-4">
   <product-card class="col" [product]="product" (deleted)="deleteProduct()" />
 </div>

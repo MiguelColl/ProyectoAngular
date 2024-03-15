@@ -21,31 +21,49 @@
     <div class="card-footer bg-transparent text-muted">
       <div class="row">
         <div class="col-auto avatar ps-1 pe-1">
-          <img
-            class="rounded-circle"
-            [src]="product.owner.photo"
-            alt="Foto propietario"
-            [routerLink]="['/profile', product.owner.id]"
-          />
+          <a [routerLink]="['/profile', product.owner.id]"
+            ><img
+              class="rounded-circle"
+              [src]="product.owner.photo"
+              alt="Foto propietario"
+          /></a>
         </div>
         <div class="col">
-          <div class="name">{{ product.owner.name }}</div>
+          <a class="name" [routerLink]="['/profile', product.owner.id]">
+            {{ product.owner.name }}
+          </a>
           <div>
             <small class="text-muted">{{
               product.datePublished | date : "dd/mm/yyyy, HH:MM"
             }}</small>
           </div>
         </div>
-        @if(product.mine) {
-          <div class="col-auto">
+        <div class="col-auto my-auto">
+          @if(product.mine && product.status < 3) {
+            <a
+              class="btn btn-outline-success btn-sm me-1"
+              role="button"
+              [routerLink]="['/products', product.id, 'edit']"
+              ><fa-icon [icon]="['fas', 'pen-to-square']"></fa-icon
+            ></a>
             <button
-              class="btn btn-outline-danger btn-sm delete"
+              class="btn btn-outline-danger btn-sm"
               (click)="deleteProduct()"
             >
               <fa-icon [icon]="['fas', 'trash']"></fa-icon>
             </button>
-          </div>
-        }
+          } 
+          <button
+            class="btn btn-outline-danger btn-sm ms-1 borderless"
+            (click)="changeFavorite()"
+          >
+            @if(product.bookmarked) {
+              <fa-icon [icon]="['fas', 'heart']"></fa-icon>
+            } @else {
+              <fa-icon [icon]="['far', 'heart']"></fa-icon>
+            }
+          </button>
+        </div>
         <div class="col-auto text-muted text-right">
           <div>
             <small

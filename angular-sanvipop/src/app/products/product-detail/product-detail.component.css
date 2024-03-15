@@ -1,0 +1,10 @@
+.name {
+    color: #385898;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 50px;
+    cursor: pointer;
+}

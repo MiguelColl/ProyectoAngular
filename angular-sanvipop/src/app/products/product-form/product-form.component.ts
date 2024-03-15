@@ -13,6 +13,9 @@ import {
 } from '@angular/forms';
 import { CanComponentDeactivate } from '../../interfaces/can-component-deactivate';
 import { positiveValueValidator } from '../../validators/positive-value';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
+import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'product-form',
@@ -25,8 +28,9 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
   #categoriesService = inject(CategoriesService);
   #postsService = inject(PostsService);
   #router = inject(Router);
-
+  #modalService = inject(NgbModal);
   #fb = inject(NonNullableFormBuilder);
+  
   productForm = this.#fb.group({
     title: ['', [Validators.required, Validators.minLength(5)]],
     description: ['', [Validators.required]],
@@ -43,7 +47,7 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
     return (
       this.saved ||
       this.productForm.pristine ||
-      confirm('¿Estás seguro de abandonar la página sin guardar los cambios?')
+      this.askUser()
     );
   }
 
@@ -66,6 +70,14 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
+  async askUser() {
+    const modalRef = this.#modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.type = 'question';
+    modalRef.componentInstance.title = '¿Estás seguro de abandonar la página?';
+    modalRef.componentInstance.body = 'Los cambios no se guardarán';
+    return await modalRef.result.catch(() => false);
+  }
+
   addPost() {
     const product: ProductInsert = {
       ...this.productForm.getRawValue(),
@@ -78,7 +90,14 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
         this.saved = true;
         this.#router.navigate(['/products']);
       },
-      error: () => console.error('Error añadiendo el producto'),
+      error: (e) => {
+        const modalRef = this.#modalService.open(InfoModalComponent);
+        modalRef.componentInstance.type = 'error';
+        modalRef.componentInstance.title = 'Error añadiendo producto';
+        modalRef.componentInstance.body = e.status == 0
+          ? 'La foto añadida ocupa demasiado tamaño'
+          : e.error.message.join(', ');
+      },
     });
   }
 
