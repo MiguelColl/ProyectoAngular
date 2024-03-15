@@ -7,4 +7,4 @@ Product-card:
 	no funciona añadir a favoritos, el servicio devuelve que no existe el producto, 404
 
 Product detail:
-	no me recarga al comprar un product, como recargo el detail, con ngzone? con router.navigate?
+	no me recarga al comprar un product, como recargo el detail, con ngzone no funciona, con router.navigate no funciona
