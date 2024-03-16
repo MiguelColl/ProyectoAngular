@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
-import { UserLogin, UserRegister } from '../interfaces/user';
+import { UserLogin, UserRegister } from '../interfaces/auth';
 import { HttpClient } from '@angular/common/http';
 import { TokenResponse } from '../interfaces/responses';
 

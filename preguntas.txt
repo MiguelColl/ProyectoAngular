@@ -1,10 +1,2 @@
 auth.service: 
 	cuando se usa isLogged() realmente? EN LOS GUARDS
-
-Product-card:
-	pongo un routerlink a la imagen y name del owner, esta bien?
-	no tiene sentido que el favorito salga solo en tus productos, al reves, deberia salir solo si no es tuyo?? tampoco deberia aparecer si el producto esta vendido??
-	no funciona añadir a favoritos, el servicio devuelve que no existe el producto, 404
-
-Resolver profile:
-	si no hay id devuelvo el profile del usuario logueado, eso no puede dar error no? debo aun asi meter un catcherror?

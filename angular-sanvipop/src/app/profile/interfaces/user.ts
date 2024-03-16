@@ -1,15 +1,3 @@
-export interface UserLogin {
-    email: string;
-    password: string;
-    lat?: number;
-    lng?: number;
-}
-
-export interface UserRegister extends User {
-    name: string;
-    photo: string;
-}
-
 export interface User {
     id?: number;
     name: string;

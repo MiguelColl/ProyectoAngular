@@ -8,6 +8,7 @@ import { faEye, faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faTrash, faPenToSquare, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
+import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
 
 @Component({
   selector: 'product-card',
@@ -19,6 +20,7 @@ import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.
 export class ProductCardComponent {
   @Input({required: true}) product!: Product;
   @Output() deleted = new EventEmitter<void>();
+  @Output() favChanged = new EventEmitter<void>();
 
   #postsService = inject(PostsService);
   #faIconLibrary = inject(FaIconLibrary);
@@ -45,14 +47,25 @@ export class ProductCardComponent {
   changeFavorite() {
     if(this.product.bookmarked) {
       this.#postsService.deleteFavorite(this.product.id).subscribe({
-        next: () => console.error('Producto quitado de favorito'),
-        error: () => console.error('Error'),
+        next: () => {
+          this.favChanged.emit();
+          const modalRef = this.#modalService.open(InfoModalComponent);
+          modalRef.componentInstance.type = 'error';
+          modalRef.componentInstance.title = 'Favorito eliminado';
+          modalRef.componentInstance.body = 'El producto se ha eliminado de favoritos';
+        },
+        error: () => console.error('Error quitando favorito'),
       });
     } else {
-      console.log(this.product.id);
       this.#postsService.addFavorite(this.product.id).subscribe({
-        next: () => console.error('Producto añadido a favorito'),
-        error: () => console.error('Error'),
+        next: () => {
+          this.favChanged.emit();
+          const modalRef = this.#modalService.open(InfoModalComponent);
+          modalRef.componentInstance.type = 'success';
+          modalRef.componentInstance.title = 'Favorito añadido';
+          modalRef.componentInstance.body = 'El producto se ha añadido a favoritos';
+        },
+        error: () => console.error('Error añadiendo favorito'),
       });
     }
   }

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { UserResponse } from '../../auth/interfaces/responses';
-import { User } from '../../auth/interfaces/user';
 import { Observable, map } from 'rxjs';
+import { User, UserPasswordEdit, UserPhotoEdit, UserProfileEdit } from '../interfaces/user';
+import { UserResponse } from '../interfaces/responses';
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +21,17 @@ export class ProfilesService {
     return this.#http
       .get<UserResponse>(`${this.#profileUrl}/me`)
       .pipe(map((resp) => resp.user));
+  }
+
+  updateProfile(profile: UserProfileEdit): Observable<void> {
+    return this.#http.put<void>(`${this.#profileUrl}/me`, profile);
+  }
+
+  updatePassword(password: UserPasswordEdit): Observable<void> {
+    return this.#http.put<void>(`${this.#profileUrl}/me/password`, password);
+  }
+
+  updatePhoto(photo: UserPhotoEdit): Observable<void> {
+    return this.#http.put<void>(`${this.#profileUrl}/me/photo`, photo);
   }
 }

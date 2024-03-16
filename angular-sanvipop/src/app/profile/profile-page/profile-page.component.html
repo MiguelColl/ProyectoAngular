@@ -1,85 +1,154 @@
 <div class="row mt-4" id="profile">
   <div class="col-3">
     <div>
-      <img class="w-100" id="photo" src="" alt="" />
-      <label class="btn btn-sm btn-danger">
-        <i class="fa-regular fa-image"></i>
-        <input type="file" id="photoInput" class="d-none" />
-      </label>
+      <img class="w-100 rounded" id="photo" [src]="user.photo" alt="Foto perfil" />
+      @if(user.me) {
+        <label class="btn btn-sm btn-danger">
+          <fa-icon [icon]="['far', 'image']" />
+          <input type="file" class="d-none" (change)="changeImage($event)" />
+        </label>
+      }
     </div>
   </div>
 
-  <div class="col-9" id="profileInfo">
-    <!--  Cambiar h4 por inputs con un botón -->
-    <h4 id="name">User name</h4>
-    <h4 id="email">
-      <small class="text-muted">email</small>
+  @if(!editProfile() && !editPassword()) {
+  <div class="col-9">
+    <h4>{{ user.name }}</h4>
+    <h4>
+      <small class="text-muted">{{ user.email }}</small>
     </h4>
-    <!-- Añadir campo de modificar password que muestre 2 campos -->
-    <div>
-      <button class="btn btn-primary" id="editProfile">
-        <i class="fa-regular fa-pen-to-square"></i>
-        Edit profile
-      </button>
-      <button class="btn btn-success" id="editPassword">
-        <i class="fa-solid fa-lock"></i>
-        Edit password
-      </button>
+    
+      <div>
+        <button class="btn btn-primary me-2" (click)="showEditProfile()">
+          <fa-icon [icon]="['far', 'pen-to-square']" />
+          Editar perfil
+        </button>
+        <button class="btn btn-success" (click)="showEditPassword()">
+          <fa-icon [icon]="['fas', 'lock']" />
+          Editar contraseña
+        </button>
+      </div>
+    
+  </div>
+  } @if(editProfile()) {
+    <div class="col-9">
+      <form [formGroup]="profileForm" (submit)="updateProfile()">
+        <legend>Actualizar perfil</legend>
+        <div class="mb-3">
+          <label for="name">Nombre:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            formControlName="name"
+            placeholder="Nombre"
+            [ngClass]="
+              validClasses(profileForm.controls.name, 'is-valid', 'is-invalid')
+            "
+          />
+          @if (profileForm.controls.name.errors?.['required']) {
+            <div class="invalid-feedback">El nombre no puede estar vacío</div>
+          }
+        </div>
+        <div class="mb-3">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            formControlName="email"
+            placeholder="Email"
+            [ngClass]="
+              validClasses(profileForm.controls.email, 'is-valid', 'is-invalid')
+            "
+          />
+          @if (profileForm.controls.email.errors?.['required']) {
+            <div class="invalid-feedback">El email no puede estar vacío</div>
+          } @else if (profileForm.controls.email.errors?.['email']) {
+            <div class="invalid-feedback">Debes introducir un email válido</div>
+          }
+        </div>
+        <button
+          type="submit"
+          class="btn btn-success me-2"
+          [disabled]="profileForm.invalid"
+        >
+          Guardar cambios
+        </button>
+        <button type="button" class="btn btn-danger" (click)="showEditProfile()">
+          Cancelar
+        </button>
+      </form>
     </div>
-  </div>
-
-  <div class="col-9 d-none" id="profileForm">
-    <form>
-      <div class="mb-3">
-        <label for="email">Email:</label>
-        <input
-          type="email"
-          class="form-control"
-          name="email"
-          id="email"
-          placeholder="Email"
-        />
-        <label for="name">Name:</label>
-        <input
-          type="text"
-          class="form-control"
-          name="name"
-          id="name"
-          placeholder="Name"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">Save changes</button>
-      <button type="button" class="btn btn-danger" id="cancelEditProfile">
-        Cancel
-      </button>
-    </form>
-  </div>
-
-  <div class="col-9 d-none" id="passwordForm">
-    <form>
-      <div class="mb-3">
-        <label for="password">Password:</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          id="password"
-          placeholder="Password"
-        />
-        <label for="password2">Repeat password:</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password2"
-          id="password2"
-          placeholder="Repeat password"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">Save changes</button>
-      <button type="button" class="btn btn-danger" id="cancelEditPassword">
-        Cancel
-      </button>
-    </form>
-  </div>
+  } @if(editPassword()) {
+    <div class="col-9">
+      <form [formGroup]="passwordForm" (submit)="updatePassword()">
+        <legend>Actualizar contraseña</legend>
+        <div formGroupName="passwordGroup">
+          <div class="mb-3">
+            <label for="password">Contraseña:</label>
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              formControlName="password"
+              placeholder="Contraseña"
+              [ngClass]="
+                validClasses(passwordForm.controls.passwordGroup.controls.password, 'is-valid', 'is-invalid')
+              "
+            />
+            @if (passwordForm.controls.passwordGroup.controls.password.errors?.['required']) {
+              <div class="invalid-feedback">La contraseña no puede estar vacía</div>
+            } @else if(passwordForm.controls.passwordGroup.controls.password.errors?.['minlength']) {
+              <div class="invalid-feedback">
+                Debes introducir
+                {{ passwordForm.controls.passwordGroup.controls.password.errors?.['minlength'].requiredLength 
+                  - passwordForm.controls.passwordGroup.controls.password.errors?.['minlength'].actualLength }}
+                carácteres más
+              </div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="passwordConfirm">Repite la contraseña:</label>
+            <input
+              type="password"
+              class="form-control"
+              name="passwordConfirm"
+              formControlName="passwordConfirm"
+              placeholder="Repite la contraseña"
+              [ngClass]="
+                validClasses(passwordForm.controls.passwordGroup, 'is-valid', 'is-invalid')
+              "
+            />
+            @if (passwordForm.controls.passwordGroup.controls.passwordConfirm.errors?.['required']) {
+              <div class="invalid-feedback">La contraseña no puede estar vacía</div>
+            } @else if(passwordForm.controls.passwordGroup.controls.passwordConfirm.errors?.['minlength']) {
+              <div class="invalid-feedback">
+                Debes introducir
+                {{ passwordForm.controls.passwordGroup.controls.passwordConfirm.errors?.['minlength'].requiredLength 
+                  - passwordForm.controls.passwordGroup.controls.passwordConfirm.errors?.['minlength'].actualLength }}
+                carácteres más
+              </div>
+            } @else if (passwordForm.controls.passwordGroup.errors?.['match']) {
+              <div class="invalid-feedback">Ambos contraseñas deben coincidir</div>
+            }
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary me-2" [disabled]="passwordForm.invalid">
+          Guardar cambios
+        </button>
+        <button type="button" class="btn btn-danger" (click)="showEditPassword()">
+          Cancelar
+        </button>
+      </form>
+    </div>
+  }
 </div>
-<div class="mt-4" id="map"></div>
+<div class="mt-4 col-8 mx-auto">
+  <!-- BOTONES -->
+</div>
+<div class="mt-4 col-8 mx-auto">
+  <bm-map [coords]="coordinates">
+    <bm-marker [coords]="coordinates" color="green"></bm-marker>
+  </bm-map>
+</div>

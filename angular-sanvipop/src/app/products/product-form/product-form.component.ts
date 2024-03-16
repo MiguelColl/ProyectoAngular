@@ -128,9 +128,9 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
         error: () => {
           const modalRef = this.#modalService.open(InfoModalComponent);
           modalRef.componentInstance.type = 'error';
-          modalRef.componentInstance.title = 'Error cambiando la foto';
+          modalRef.componentInstance.title = 'Error cambiando el avatar';
           modalRef.componentInstance.body =
-            'La foto añadida ocupa demasiado tamaño';
+            'El avatar seleccionado ocupa demasiado tamaño';
         },
       });
     } else this.updateInfo();

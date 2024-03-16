@@ -9,7 +9,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { GeolocateService } from '../../services/geolocate.service';
 import { AuthService } from '../services/auth.service';
-import { UserLogin } from '../interfaces/user';
+import { UserLogin } from '../interfaces/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
 

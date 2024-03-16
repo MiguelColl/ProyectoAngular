@@ -1,4 +1,4 @@
-import { User } from "../../auth/interfaces/user";
+import { User } from "../../profile/interfaces/user";
 import { Category } from "./category";
 import { Photo } from "./photo";
 

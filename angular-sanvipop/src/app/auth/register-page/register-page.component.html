@@ -35,7 +35,7 @@
       />
       @if (registerForm.controls.emailGroup.controls.email.errors?.['required']) {
         <div class="invalid-feedback">El email no puede estar vacío</div>
-      } @if (registerForm.controls.emailGroup.controls.email.errors?.['email']) {
+      } @else if (registerForm.controls.emailGroup.controls.email.errors?.['email']) {
         <div class="invalid-feedback">Debes introducir un email válido</div>
       }
     </div>
@@ -78,7 +78,7 @@
     />
     @if (registerForm.controls.password.errors?.['required']) {
       <div class="invalid-feedback">La contraseña no puede estar vacía</div>
-    } @if(registerForm.controls.password.errors?.['minlength']) {
+    } @else if(registerForm.controls.password.errors?.['minlength']) {
     <div class="invalid-feedback">
       Debes introducir
       {{registerForm.controls.password.errors?.['minlength'].requiredLength - registerForm.controls.password.errors?.['minlength'].actualLength}}
@@ -117,7 +117,7 @@
     </div>
   </div>
   <div class="mb-3">
-    <label for="image">Foto avatar</label>
+    <label for="image">Avatar</label>
     <input
       type="file"
       class="form-control"

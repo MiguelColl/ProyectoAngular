@@ -9,12 +9,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { matchEmail } from '../../validators/match-email';
+import { matchFields } from '../../validators/match-fields';
 import { GeolocateService } from '../../services/geolocate.service';
 import { AuthService } from '../services/auth.service';
-import { UserRegister } from '../interfaces/user';
+import { UserRegister } from '../interfaces/auth';
 import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CanComponentDeactivate } from '../../interfaces/can-component-deactivate';
+import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'register-page',
@@ -23,7 +25,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css',
 })
-export class RegisterPageComponent {
+export class RegisterPageComponent implements CanComponentDeactivate {
   #authService = inject(AuthService);
   #router = inject(Router);
   #geolocation = inject(GeolocateService);
@@ -37,7 +39,7 @@ export class RegisterPageComponent {
         email: ['', [Validators.required, Validators.email]],
         emailConfirm: ['', [Validators.required, Validators.email]],
       },
-      { validators: matchEmail }
+      { validators: matchFields('email', 'emailConfirm') }
     ),
     password: ['', [Validators.required, Validators.minLength(4)]],
     lat: ['', [Validators.required]],
@@ -46,9 +48,22 @@ export class RegisterPageComponent {
   });
 
   imageBase64 = '';
+  saved = false;
 
   constructor() {
     this.getGeolocation();
+  }
+
+  canDeactivate() {
+    return this.saved || this.registerForm.pristine || this.askUser();
+  }
+
+  async askUser() {
+    const modalRef = this.#modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.type = 'question';
+    modalRef.componentInstance.title = '¿Estás seguro de abandonar la página?';
+    modalRef.componentInstance.body = 'Los cambios no se guardarán';
+    return await modalRef.result.catch(() => false);
   }
 
   async getGeolocation(): Promise<void> {
@@ -100,6 +115,7 @@ export class RegisterPageComponent {
         modalRef.componentInstance.title = 'Cuenta creada';
         modalRef.componentInstance.body = 'Te has registrado correctamente'
         await modalRef.result.catch(() => false);
+        this.saved = true;
         this.#router.navigate(['/auth/login']);
       },
       error: (e) => {
@@ -107,7 +123,7 @@ export class RegisterPageComponent {
         modalRef.componentInstance.type = 'error';
         modalRef.componentInstance.title = 'Registro fallido';
         modalRef.componentInstance.body = e.status == 0
-          ? 'La foto añadida ocupa demasiado tamaño'
+          ? 'El avatar seleccionado ocupa demasiado tamaño'
           : e.error.message.join(', ');
       },
     });

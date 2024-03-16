@@ -33,12 +33,16 @@ export class ProductsPageComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.#postsService
-      .getProducts()
-      .subscribe((products) => this.products.set(products));
+    this.getProducts();
   }
 
   deleteProduct(product: Product) {
     this.products.update((products) => products.filter((p) => p !== product));
+  }
+
+  getProducts() {
+    this.#postsService
+      .getProducts()
+      .subscribe((products) => this.products.set(products));
   }
 }

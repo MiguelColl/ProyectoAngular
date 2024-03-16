@@ -29,7 +29,8 @@
       <product-card
         class="col"
         [product]="product"
-        (deleted)="deleteProduct(product)" />
+        (deleted)="deleteProduct(product)"
+        (favChanged)="getProducts()" />
     }
   </div>
 }
