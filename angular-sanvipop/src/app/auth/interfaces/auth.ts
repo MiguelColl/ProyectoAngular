@@ -13,3 +13,9 @@ export interface UserRegister {
     lat: number;
     lng: number;
 }
+
+export interface ExternalLogin {
+    token: string;
+    lat: number;
+    lng: number;
+}

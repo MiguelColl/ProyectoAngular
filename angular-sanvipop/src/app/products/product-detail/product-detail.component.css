@@ -8,3 +8,8 @@
     width: 50px;
     cursor: pointer;
 }
+
+.photo {
+    height: 25rem;
+    width: max-content;
+}

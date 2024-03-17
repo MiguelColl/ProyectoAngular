@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { matchFields } from '../../validators/match-fields';
 import { NgClass } from '@angular/common';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
 import { ProfilesService } from '../services/profiles.service';
 import {
@@ -28,6 +28,7 @@ import { ImageModalComponent } from '../../modals/image-modal/image-modal.compon
 import { BmMapDirective } from '../../bingmaps/bm-map.directive';
 import { BmMarkerDirective } from '../../bingmaps/bm-marker.directive';
 import { Coordinates } from '../../bingmaps/coordinates';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'profile-page',
@@ -38,6 +39,8 @@ import { Coordinates } from '../../bingmaps/coordinates';
     NgClass,
     BmMapDirective,
     BmMarkerDirective,
+    NgbModule,
+    RouterLink
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css',

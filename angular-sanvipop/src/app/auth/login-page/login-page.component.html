@@ -39,8 +39,23 @@
   <button type="submit" class="btn btn-success" [disabled]="loginForm.invalid">
     Login
   </button>
+  <div googleLogin class="btn"></div> 
 </form>
 
-<a class="btn btn-primary mt-2" role="button" [routerLink]="['/auth/register']">
-  Crear cuenta
-</a>
+<button
+  fbLogin
+  [scopes]="['email', 'public_profile']"
+  class="btn btn-primary"
+  (loginOk)="loggedFacebook($event)"
+  (loginError)="showError($event)"
+>
+  <fa-icon [icon]="['fab', 'facebook']" />
+  Login con Facebook
+</button>
+
+<div class="mt-2">
+  <a class="btn btn-primary" role="button" [routerLink]="['/auth/register']">
+    Crear cuenta
+  </a>
+</div>
+

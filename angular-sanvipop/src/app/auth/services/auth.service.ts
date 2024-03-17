@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
-import { UserLogin, UserRegister } from '../interfaces/auth';
+import { ExternalLogin, UserLogin, UserRegister } from '../interfaces/auth';
 import { HttpClient } from '@angular/common/http';
 import { TokenResponse } from '../interfaces/responses';
 
@@ -52,5 +52,23 @@ export class AuthService {
 
   register(data: UserRegister): Observable<void> {
     return this.#http.post<void>(`${this.#userUrl}/register`, data);
+  }
+
+  googleLogin(data: ExternalLogin): Observable<void> {
+    return this.#http.post<TokenResponse>(`${this.#userUrl}/google`, data).pipe(
+      map((res) => {
+        localStorage.setItem('token', res.accessToken);
+        this.#logged.set(true);
+      })
+    );
+  }
+
+  facebookLogin(data: ExternalLogin): Observable<void> {
+    return this.#http.post<TokenResponse>(`${this.#userUrl}/facebook`, data).pipe(
+      map((res) => {
+        localStorage.setItem('token', res.accessToken);
+        this.#logged.set(true);
+      })
+    );
   }
 }

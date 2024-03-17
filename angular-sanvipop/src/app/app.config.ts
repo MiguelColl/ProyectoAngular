@@ -11,6 +11,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { provideBingmapsKey } from './bingmaps/bingmaps.config';
+import { provideGoogleId } from './auth/google-login/google-login.config';
+import { provideFacebookId } from './auth/facebook-login/facebook-login.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +25,9 @@ export const appConfig: ApplicationConfig = {
     provideBingmapsKey(
       'AkNzLhYRWHdv2quBGyOrYORRt-WbpGZTN3lGc0osvU7e3rWMgpcSSYZh3vQFKYLb'
     ),
+    provideGoogleId(
+      '1066792929235-fm57ku5qv4ncifl4fkvtdsb1j6jvmmsq.apps.googleusercontent.com'
+    ),
+    provideFacebookId('716921097155288', 'v19.0'),
   ],
 };

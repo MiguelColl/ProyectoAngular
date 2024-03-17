@@ -75,31 +75,33 @@
     <div class="invalid-feedback">Debes seleccionar una categoría</div>
     }
   </div>
-  <div class="mb-3">
-    <label for="image">Foto principal</label>
-    <input
-      type="file"
-      class="form-control"
-      accept="image/*"
-      (change)="changeImage($event)"
-      id="image"
-      formControlName="mainPhoto"
-      [ngClass]="
-        validClasses(productForm.controls.mainPhoto, 'is-valid', 'is-invalid')
-      "
-    />
-    @if (productForm.controls.mainPhoto.errors?.['required']) {
-    <div class="invalid-feedback">
-      Debes seleccionar una foto para el producto
+  @if(!product) {
+    <div class="mb-3">
+      <label for="image">Foto principal</label>
+      <input
+        type="file"
+        class="form-control"
+        accept="image/*"
+        (change)="changeImage($event)"
+        id="image"
+        formControlName="mainPhoto"
+        [ngClass]="
+          validClasses(productForm.controls.mainPhoto, 'is-valid', 'is-invalid')
+        "
+      />
+      @if (productForm.controls.mainPhoto.errors?.['required']) {
+      <div class="invalid-feedback">
+        Debes seleccionar una foto para el producto
+      </div>
+      }
     </div>
-    }
-  </div>
-  <img
-    [src]="imageBase64"
-    alt=""
-    class="img-thumbnail mb-3"
-    [ngClass]="{ 'd-none': imageBase64.length === 0 }"
-  />
+    <img
+      [src]="imageBase64"
+      alt=""
+      class="img-thumbnail mb-3"
+      [ngClass]="{ 'd-none': imageBase64.length === 0 }"
+    />
+  }
 
   <div class="mb-4">
     <button

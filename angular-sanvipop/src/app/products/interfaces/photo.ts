@@ -5,5 +5,5 @@ export interface Photo {
 
 export interface PhotoInsert {
     photo: string;
-    setMain: boolean;
+    setMain?: boolean;
 }

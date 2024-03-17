@@ -17,7 +17,7 @@
     <h4>
       <small class="text-muted">{{ user.email }}</small>
     </h4>
-    
+    @if(user.me) {
       <div>
         <button class="btn btn-primary me-2" (click)="showEditProfile()">
           <fa-icon [icon]="['far', 'pen-to-square']" />
@@ -28,7 +28,7 @@
           Editar contraseña
         </button>
       </div>
-    
+    }
   </div>
   } @if(editProfile()) {
     <div class="col-9">
@@ -144,8 +144,18 @@
     </div>
   }
 </div>
-<div class="mt-4 col-8 mx-auto">
-  <!-- BOTONES -->
+<div class="text-center" ngbDropdown>
+  <button class="btn btn-primary" id="dropdownMenu" ngbDropdownToggle>
+    Ver productos
+  </button>
+  <div ngbDropdownMenu="dropdownMenu">
+    <a [routerLink]="['/products']" [queryParams]="{ user: user.id, show: 'selling' }" ngbDropdownItem>En venta</a>
+    <a [routerLink]="['/products']" [queryParams]="{ user: user.id, show: 'sold' }" ngbDropdownItem>Vendidos</a>
+    <a [routerLink]="['/products']" [queryParams]="{ user: user.id, show: 'bought' }" ngbDropdownItem>Comprados</a>
+    @if(user.me) {
+      <a [routerLink]="['/products']" [queryParams]="{ user: user.id, show: 'favorites' }" ngbDropdownItem>Favoritos</a>
+    }
+  </div>
 </div>
 <div class="mt-4 col-8 mx-auto">
   <bm-map [coords]="coordinates">

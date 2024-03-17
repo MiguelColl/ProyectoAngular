@@ -1,5 +1,5 @@
-@if (products().length) {
-  <nav class="card-block">
+<nav class="card-block">
+  @if(products().length > 0) {
     <form class="form p-3">
       <div class="row">
         <label class="col-form-label col-sm-2 text-sm-end" for="filterDesc">
@@ -20,17 +20,54 @@
         }
       </div>
     </form>
-  </nav>
-
-  <div
-    id="productsContainer"
-    class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-    @for (product of filteredProducts(); track product.id) {
-      <product-card
-        class="col"
-        [product]="product"
-        (deleted)="deleteProduct(product)"
-        (favChanged)="getProducts()" />
+  }
+  @if(profile) {
+    <div class="text-center mt-3" ngbDropdown>
+      <button class="btn btn-primary" id="dropdownMenu" ngbDropdownToggle>
+        Ver productos
+      </button>
+      <div ngbDropdownMenu="dropdownMenu">
+        <a [routerLink]="['/products']" [queryParams]="{ user: profile.id, show: 'selling' }" ngbDropdownItem>En venta</a>
+        <a [routerLink]="['/products']" [queryParams]="{ user: profile.id, show: 'sold' }" ngbDropdownItem>Vendidos</a>
+        <a [routerLink]="['/products']" [queryParams]="{ user: profile.id, show: 'bought' }" ngbDropdownItem>Comprados</a>
+        @if(profile.me) {
+          <a [routerLink]="['/products']" [queryParams]="{ user: profile.id, show: 'favorites' }" ngbDropdownItem>Favoritos</a>
+        }
+      </div>
+    </div>
+  }
+</nav>
+@if(profile) {
+  <div class="text-center mt-3">
+    @if(profile.me) {
+      <h2 class="d-inline-block me-2">{{ titles.me[show()!] }}</h2>
+    } @else {
+      <h2 class="d-inline-block me-2">
+        {{ titles.user[show()!] }}
+        <a [routerLink]="['/profile', profile.id]" class="name">{{
+          profile.name
+        }}</a>
+      </h2>
+      <a [routerLink]="['/profile', profile.id]"
+        ><img
+          class="rounded-circle avatar d-inline-block"
+          [src]="profile.photo"
+          alt="Foto usuario"
+      /></a>
     }
   </div>
 }
+<div
+  id="productsContainer"
+  class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+  @for (product of filteredProducts(); track product.id) {
+    <product-card
+      class="col"
+      [product]="product"
+      (deleted)="deleteProduct(product)"
+      (favChanged)="favoriteChanged()" />
+  } 
+  @if(products().length === 0) {
+    <p class="text-center mx-auto">No hay productos que mostrar</p>
+  }
+</div>

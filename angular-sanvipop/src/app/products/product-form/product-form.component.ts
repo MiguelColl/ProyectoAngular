@@ -16,7 +16,6 @@ import { positiveValueValidator } from '../../validators/positive-value';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
-import { PhotoInsert } from '../interfaces/photo';
 
 @Component({
   selector: 'product-form',
@@ -42,7 +41,6 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
   });
 
   imageBase64 = '';
-  #actualImage = '';
   nameButton = 'Crear';
   saved = false;
   categories: Category[] = [];
@@ -60,9 +58,7 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
       this.productForm.controls.description.setValue(this.product.description);
       this.productForm.controls.category.setValue(this.product.category.id);
       this.productForm.controls.price.setValue(this.product.price);
-      this.productForm.controls.mainPhoto.setValue(this.product.mainPhoto); // DOMException, pero necesario para no obligar a asignar una foto para poder pulsar el submit
-      this.imageBase64 = this.product.mainPhoto;
-      this.#actualImage = this.product.mainPhoto;
+      this.productForm.controls.mainPhoto.setValue('Text to make field valid');
       this.nameButton = 'Actualizar producto';
     }
   }
@@ -113,30 +109,6 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
   }
 
   updatePost() {
-    if (this.#actualImage != this.imageBase64) {
-      const photoId = this.product!.photos![0].id;
-      const photo: PhotoInsert = {
-        photo: this.imageBase64,
-        setMain: true,
-      };
-
-      this.#postsService.updateMainPhoto(this.product!.id, photo).subscribe({
-        next: () =>
-          this.#postsService
-            .deletePhoto(this.product!.id, photoId)
-            .subscribe(() => this.updateInfo()),
-        error: () => {
-          const modalRef = this.#modalService.open(InfoModalComponent);
-          modalRef.componentInstance.type = 'error';
-          modalRef.componentInstance.title = 'Error cambiando el avatar';
-          modalRef.componentInstance.body =
-            'El avatar seleccionado ocupa demasiado tamaño';
-        },
-      });
-    } else this.updateInfo();
-  }
-
-  updateInfo() {
     const product: ProductUpdate = {
       title: this.productForm.value.title!,
       description: this.productForm.value.description!,

@@ -1,35 +1,52 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">SanviPop</a>
+    <a class="navbar-brand" [routerLink]="['/auth/login']">SanviPop</a>
     <ul class="navbar-nav me-auto mb-lg-0">
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/products']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          Home
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/products/add']"
-          [routerLinkActive]="['active']"
-        >
-          Subir producto
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/profile']"
-          [routerLinkActive]="['active']"
-        >
-          Perfil
-        </a>
-      </li>
+      @if(logged()) {
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/products']"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/products/add']"
+            [routerLinkActive]="['active']"
+          >
+            Subir producto
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/profile']"
+            [routerLinkActive]="['active']"
+          >
+            Perfil
+          </a>
+        </li>
+      } @else {
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/auth/login']"
+            [routerLinkActive]="['active']"
+          >
+            Login
+          </a>
+        </li>
+      }
     </ul>
+    @if(logged()) {
+      <div class="navbar-nav ml-auto">
+        <button class="nav-link" (click)="logout()">Logout</button>
+      </div>
+    }
   </div>
 </nav>

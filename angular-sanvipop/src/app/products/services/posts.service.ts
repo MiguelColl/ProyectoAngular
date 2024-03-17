@@ -27,6 +27,30 @@ export class PostsService {
       .pipe(map((resp) => resp.product));
   }
 
+  getProductsSelling(idUser: number): Observable<Product[]> {
+    return this.#http
+      .get<ProductsResponse>(`${this.#productsUrl}/user/${idUser}`)
+      .pipe(map((resp) => resp.products));
+  }
+
+  getProductsSold(idUser: number): Observable<Product[]> {
+    return this.#http
+      .get<ProductsResponse>(`${this.#productsUrl}/user/${idUser}/sold`)
+      .pipe(map((resp) => resp.products));
+  }
+
+  getProductsBought(idUser: number): Observable<Product[]> {
+    return this.#http
+      .get<ProductsResponse>(`${this.#productsUrl}/user/${idUser}/bought`)
+      .pipe(map((resp) => resp.products));
+  }
+
+  getProductsFavorites(): Observable<Product[]> {
+    return this.#http
+      .get<ProductsResponse>(`${this.#productsUrl}/bookmarks`)
+      .pipe(map((resp) => resp.products));
+  }
+
   addProduct(product: ProductInsert): Observable<Product> {
     return this.#http
       .post<SingleProductResponse>(this.#productsUrl, product)
@@ -54,7 +78,13 @@ export class PostsService {
     return this.#http.put<void>(`${this.#productsUrl}/${productId}/buy`, {});
   }
 
-  updateMainPhoto(productId: number, photo: PhotoInsert): Observable<void> {
+  updateMainPhoto(productId: number, photoId: number): Observable<void> {
+    return this.#http.put<void>(`${this.#productsUrl}/${productId}`, {
+      mainPhoto: photoId,
+    });
+  }
+
+  addPhoto(productId: number, photo: PhotoInsert): Observable<void> {
     return this.#http.post<void>(
       `${this.#productsUrl}/${productId}/photos`,
       photo
