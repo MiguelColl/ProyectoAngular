@@ -1,11 +1,45 @@
 <div class="col">
   <div class="card h-100 shadow">
-    <img
-      class="card-img-top"
-      [src]="product.mainPhoto"
-      alt="Foto producto"
-      [routerLink]="['/products', product.id]"
-    />
+    @if(!product.photos) {
+      <img
+        class="card-img-top"
+        [src]="product.mainPhoto"
+        alt="Foto principal de producto"
+        [routerLink]="['/products', product.id]"
+      />
+    } @else {
+      <ngb-carousel>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper row">
+            <img
+              [src]="product.mainPhoto"
+              alt="Foto principal"
+              [routerLink]="['/products', product.id]"
+              class="card-img-top photoCarousel mx-auto img-fluid"
+            />
+          </div>
+          @if(product.mine) {
+            <div class="carousel-caption mainPhoto mx-auto">
+              <h3>Foto principal</h3>
+            </div>
+          }
+        </ng-template>
+        @for (photo of product.photos; track photo.id) {
+          @if(photo.url !== product.mainPhoto) {
+            <ng-template ngbSlide>
+              <div class="picsum-img-wrapper row">
+                <img
+                  [src]="photo.url"
+                  alt="Foto producto"
+                  [routerLink]="['/products', product.id]"
+                  class="card-img-top photoCarousel mx-auto img-fluid"
+                />
+              </div>
+            </ng-template>
+          }
+        }
+      </ngb-carousel>
+    }
     <div class="card-body">
       <h5 class="card-title" [routerLink]="['/products', product.id]">
         {{ product.title }}
@@ -52,7 +86,7 @@
             >
               <fa-icon [icon]="['fas', 'trash']"></fa-icon>
             </button>
-          } 
+          }
           <button
             class="btn btn-outline-danger btn-sm ms-1 borderless"
             (click)="changeFavorite()"

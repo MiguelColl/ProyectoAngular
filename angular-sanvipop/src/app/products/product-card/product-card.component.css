@@ -1,42 +1,53 @@
 .card {
-    & > .card-footer {
-      font-size: smaller;
-    }
-  
-    & > .card-img-top {
-      cursor: pointer;
-    }
-  
-    & .card-title {
-      cursor: pointer;
-      color: #385898;
-  
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  
-  .card-footer .avatar img {
-    width: 50px;
-    cursor: pointer;
-  }
-  
-  .card-footer .name, #comments strong {
-    color: #385898;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .card-footer .name:hover, #comments strong:hover {
-    text-decoration: underline;
-  }
-  
-  .card-footer .fa-thumbs-up, .card-footer .fa-thumbs-down {
-    cursor: pointer;
-    font-size: 1.5em;
+  & > .card-footer {
+    font-size: smaller;
   }
 
-  .borderless {
-    border: none;
+  & > .card-img-top {
+    cursor: pointer;
   }
+
+  & .card-title {
+    cursor: pointer;
+    color: #385898;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.card-footer .avatar img {
+  width: 50px;
+  cursor: pointer;
+}
+
+.card-footer .name, #comments strong {
+  color: #385898;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.card-footer .name:hover, #comments strong:hover {
+  text-decoration: underline;
+}
+
+.card-footer .fa-thumbs-up, .card-footer .fa-thumbs-down {
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.borderless {
+  border: none;
+}
+
+.photoCarousel{
+  height: 35rem;
+  width: max-content;
+}
+
+.mainPhoto {
+  background-color: rgba(0, 0, 0, 0.555);
+  border-radius: 1rem;
+  width: 15rem;
+}
