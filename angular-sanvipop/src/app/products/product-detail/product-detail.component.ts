@@ -10,8 +10,6 @@ import { faTrash, faHouse, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ImageModalComponent } from '../../modals/image-modal/image-modal.component';
 import { PhotoInsert } from '../interfaces/photo';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
-import { injectStripe } from 'ngx-stripe';
-import { StripeElementsOptions } from '@stripe/stripe-js';
 
 @Component({
   selector: 'product-detail',
@@ -25,13 +23,6 @@ export class ProductDetailComponent {
   #router = inject(Router);
   #postsService = inject(PostsService);
   #modalService = inject(NgbModal);
-  #stripe = injectStripe(
-    'pk_test_51OvJsD2MiEg3n1LuqQkpkEvXFGkfaz2MhSeB0jBkSCCmt8mvWMY0HqVv02AQnyXQuGfM63cmLBmXuVXc8plGi7jE00zZwpfLhY'
-  );
-  #elementsOptions: StripeElementsOptions = {
-    locale: 'es',
-    clientSecret: 
-  };
 
   ownerPhotoUrl = 'https://api.fullstackpro.es/sanvipop/';
   managePhotos = signal(false);
@@ -50,6 +41,11 @@ export class ProductDetailComponent {
   }
 
   buyProduct() {
+    // const modalRef = this.#modalService.open(StripeModalComponent, {
+    //   backdrop: 'static',
+    //   keyboard: false,
+    // });
+    // modalRef.componentInstance.price = this.product.price;
     this.#postsService.buyProduct(this.product.id).subscribe({
       next: () => {
         this.infoModal(

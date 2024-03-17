@@ -25,7 +25,7 @@ import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.
   styleUrl: './product-form.component.css',
 })
 export class ProductFormComponent implements OnInit, CanComponentDeactivate {
-  @Input() product!: Product;
+  @Input() product?: Product;
   #categoriesService = inject(CategoriesService);
   #postsService = inject(PostsService);
   #router = inject(Router);

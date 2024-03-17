@@ -64,11 +64,13 @@ export class AuthService {
   }
 
   facebookLogin(data: ExternalLogin): Observable<void> {
-    return this.#http.post<TokenResponse>(`${this.#userUrl}/facebook`, data).pipe(
-      map((res) => {
-        localStorage.setItem('token', res.accessToken);
-        this.#logged.set(true);
-      })
-    );
+    return this.#http
+      .post<TokenResponse>(`${this.#userUrl}/facebook`, data)
+      .pipe(
+        map((res) => {
+          localStorage.setItem('token', res.accessToken);
+          this.#logged.set(true);
+        })
+      );
   }
 }
